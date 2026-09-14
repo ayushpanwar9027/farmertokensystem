@@ -1,0 +1,98 @@
+# ============================================================================
+# deploy/htaccess.production - CANONICAL PRODUCTION WEBROOT .htaccess
+# Farmer Procurement System - testing.deepjyotimicrofinance.com
+# ----------------------------------------------------------------------------
+# This file is the SOURCE OF TRUTH for the public webroot rules. Copy it to:
+#   <subdomain-folder>/.htaccess  (the docroot root)
+#
+# Security model (cPanel subdomain folder layout):
+#   <docroot>/   = testing.deepjyotimicrofinance.com/ (Apache serves everything here)
+#     index.php  .htaccess  portal/   <- web-served entry + portal
+#     app/  config/  database/  resources/  storage/  docs/  .env  <- app code
+#
+# .htaccess rules below deny web access to app/, config/, database/, storage/,
+# .env etc. even though they sit inside the docroot. This is defence-in-depth.
+# For ideal security, move these dirs OUTSIDE the docroot if your panel allows
+# a custom document root (Option A/B in deploy/checklist.md).
+# ============================================================================
+
+# No directory listing + UTF-8 default
+Options -Indexes
+AddDefaultCharset UTF-8
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # ------------------------------------------------------------------
+    # 1) HTTP -> HTTPS 301 (subdomain serves https only)
+    # ------------------------------------------------------------------
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # ------------------------------------------------------------------
+    # 2) Root URL -> portal login page (index.php has no '/' route)
+    # ------------------------------------------------------------------
+    RewriteRule ^$ /portal/ [L,R=301]
+
+    # ------------------------------------------------------------------
+    # 3) Deny dotfile secrets / VCS files / logs / scripts (defence in depth)
+    # ------------------------------------------------------------------
+    RewriteRule ^\.(env|env\.example|env\.production|gitignore)$ - [F,L]
+    RewriteRule ^\.git(?:/|$) - [F,L]
+    RewriteRule .*\.(?:log|sql|ini|sh|bak|swp)$ - [F,L]
+    # Deny app/config/database/storage/resources/scripts dirs IF present in webroot
+    RewriteRule ^(?:app|config|database|storage|resources|scripts)(?:/|$) - [F,L]
+
+    # ------------------------------------------------------------------
+    # 4) Front controller: every non-file / non-dir request -> index.php
+    #    (preserves /api/v1/*, /portal/*, /health, /health/maintenance)
+    # ------------------------------------------------------------------
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# --------------------------------------------------------------------------
+# 2) Security headers (active only over https - enforced by redirect above)
+# --------------------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    # Portal uses no third-party scripts (no OneSignal web SDK), so the strict
+    # CSP below is safe. Re-check if any CDN script is ever added.
+    Header always set Content-Security-Policy "upgrade-insecure-requests; default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'"
+    # HSTS - KEEP COMMENTED until HTTPS is verified stable live, then enable:
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# --------------------------------------------------------------------------
+# 5) Cache control for portal static assets (NOT hashed - short TTLs so a
+#    deploy is visible quickly; index.html/config.js never cached long).
+#    If assets later become content-hashed, switch js/css to 1 month.
+# --------------------------------------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType text/css "access plus 5 minutes"
+    ExpiresByType application/javascript "access plus 5 minutes"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 month"
+    ExpiresByType font/woff2 "access plus 1 month"
+</IfModule>
+
+# --------------------------------------------------------------------------
+# Apache 2.4 FilesMatch - final deny layer for dotfiles & sensitive suffixes
+# --------------------------------------------------------------------------
+# Deliberately does NOT blanket-deny all dot-dirs: /.well-known/acme-challenge/
+# must stay reachable for AutoSSL / Let's Encrypt HTTP-01 validation.
+<FilesMatch "^\.(env|env\.example|env\.production|gitignore|htpasswd|user\.ini)$">
+    Require all denied
+</FilesMatch>
+<FilesMatch "\.(log|sql|ini|sh|bak|swp)$">
+    Require all denied
+</FilesMatch>

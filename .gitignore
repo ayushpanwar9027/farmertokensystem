@@ -1,0 +1,17 @@
+.env
+.env.production
+.env.local
+.env.staging
+deploy/credentials.local.md
+deploy/*.zip
+storage/logs/*.log
+storage/cache/*
+storage/temp/*
+!storage/cache/.gitkeep
+!storage/temp/.gitkeep
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

@@ -1,0 +1,24 @@
+{
+    "sa": {
+        "mobile": "8123456781",
+        "password": "SaP08Test@1234",
+        "id": 26
+    },
+    "da": {
+        "mobile": "7123456701",
+        "password": "DaP08Test@1234",
+        "id": 27
+    },
+    "cm": {
+        "mobile": "8123456784",
+        "password": "CmP08Test@1234",
+        "id": 28
+    },
+    "fa": {
+        "mobile": "8123456782",
+        "password": "FaP08Test@1234",
+        "id": 29
+    },
+    "centre_p08pun1": 85,
+    "centre_p08nk1": 86
+}

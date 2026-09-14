@@ -1,0 +1,51 @@
+﻿========================================
+  FPS Smoke Test ΓÇö dev
+  Base: http://127.0.0.1:8080
+========================================
+
+
+========================================
+  RESULTS SUMMARY
+========================================
+
+  [32m[PASS][0m 01. 01. GET /health                                             38ms  
+  [32m[PASS][0m 02. 02. GET /web/csrf                                           66ms  
+  [32m[PASS][0m 03. 03. POST /auth/register                                    142ms  
+  [32m[PASS][0m 04. 04. POST /auth/verify-otp                                   98ms  
+  [32m[PASS][0m 05. 05. POST /auth/complete-registration                       200ms  
+  [32m[PASS][0m 06. 06. POST /auth/login (smoke farmer)                        242ms  
+  [32m[PASS][0m 07. 07. 2FA flow (2FA user)                                    514ms  
+  [32m[PASS][0m 08. 08. GET /auth/me + refresh + logout                        311ms  
+  [32m[PASS][0m 09. 08b. Re-login farmer for subsequent steps                  225ms  
+  [32m[PASS][0m 10. 09. POST /auth/devices                                      85ms  
+  [32m[PASS][0m 11. 10a. GET /centres                                          114ms  
+  [32m[PASS][0m 12. 10b. GET /slots?centre_id=&date= (first weekday in horizon)    222ms  
+  [32m[PASS][0m 13. 10c. GET /crops                                             40ms  
+  [31m[FAIL][0m 14. 10d. POST /bookings (multi-crop)                           144ms  HTTP 409: Unable to generate a unique token, please retry
+  [31m[FAIL][0m 15. 10e. GET /bookings (list)                                   89ms  Bookings list is empty
+  [33m[SKIP][0m 16. 10f. GET /tokens/{id}                                        0ms  
+  [31m[FAIL][0m 17. 11a. GET /queue/my                                          88ms  HTTP 404: No active queue entry found
+  [32m[PASS][0m 18. 11b. Operator login for queue ops                          450ms  
+  [32m[PASS][0m 19. 11c. POST /operator/queue/call-next                        461ms  
+  [32m[PASS][0m 20. 12a. POST /operator/queue/{id}/start (procurement)         104ms  
+  [32m[PASS][0m 21. 12b. PUT /operator/procurements/{id} (capture weight)      144ms  
+  [32m[PASS][0m 22. 12c. POST /operator/procurements/{id}/submit               182ms  
+  [32m[PASS][0m 23. 12d. GET /my/procurements                                  118ms  
+  [32m[PASS][0m 24. 12e. Approve submitted procurement (super admin)           618ms  
+  [31m[FAIL][0m 25. 13a. Release payment (centre manager)                      319ms  release HTTP 403: You do not have access to this centre
+  [32m[PASS][0m 26. 13b. GET /my/payments                                      114ms  
+  [32m[PASS][0m 27. 14a. GET /notifications                                     77ms  
+  [32m[PASS][0m 28. 14b. PATCH /notifications/{id}/read                          0ms  
+  [32m[PASS][0m 29. 15a. POST /admin/notifications/test-push                   325ms  
+  [32m[PASS][0m 30. 15b. Operator -> super_admin route -> 403                   98ms  
+  [32m[PASS][0m 31. 15c. Super admin login for maintenance                       0ms  
+  [32m[PASS][0m 32. 16a. Maintenance enable (super admin)                      183ms  
+  [32m[PASS][0m 33. 16b. Anonymous during maintenance -> 503                    45ms  
+  [32m[PASS][0m 34. 16c. Maintenance disable (super admin)                     280ms  
+  [32m[PASS][0m 35. 16d. Anonymous after disable -> 200                        115ms  
+  [32m[PASS][0m 36. 17a. POST /auth/forgot-password                            154ms  
+  [32m[PASS][0m 37. 17b. POST /auth/reset-password                             358ms  
+
+  Total: 37 | PASS: 32 | FAIL: 4 | SKIP: 1
+
+[31m  SMOKE TEST FAILED[0m

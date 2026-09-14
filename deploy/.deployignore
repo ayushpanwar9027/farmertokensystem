@@ -1,0 +1,70 @@
+# ===========================================================================
+# deploy/.deployignore — files/folders excluded from production upload.
+# Used by deploy/sync.ps1 with robocopy semantics.
+#
+# Robocopy rules (IMPORTANT):
+#   - /XF (file exclusion) accepts ONLY basenames/wildcards, NO path separators.
+#   - /XD (dir exclusion)  accepts directory BASENAMES (matched anywhere in the
+#     tree). Only the basename is used here.
+#   - Patterns are applied to the copied roots: app/ config/ database/ public/
+#     resources/ storage/ docs/.
+# ===========================================================================
+
+# --- Files (basename / wildcard, no slashes) -------------------------------
+# Secrets — never uploaded
+.env
+.env.*
+*.env
+credentials.local.md
+*.zip
+
+# .gitignore mirror: logs + caches are regenerated on the host
+*.log
+
+# Development-only console scripts (tests, probes, helpers, reset scripts)
+*_unit_test.php
+*_e2e_*.php
+*_probe.php
+phase*_*.php
+rbac_*.php
+reset_rate_limits.php
+toggle_maintenance.php
+security_scan.php
+smoke_test.php
+edge_cases_test.php
+load_test.php
+
+# Archives
+sihproject.zip
+*.zip
+*.tar.gz
+*.tgz
+
+# Editor / OS cruft
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Dev artifacts (test contexts, smoke runs, otp probe log, dev uploads)
+*_e2e_context.json
+*_test_context.json
+rbac_test_context.json
+smoke_run*.txt
+.otp_log
+private/
+
+# --- Directories (basename + trailing / : any dir with this name is excluded
+#      anywhere under the copied roots app/config/database/public/resources/
+#      storage/docs — robocopy /XD matches by basename at any depth) ---------
+scripts/
+build/
+.dart_tool/
+internal-notes/
+scratch/
+.idea/
+.vscode/
+# storage writable dirs are recreated empty on the host (see sync.ps1 [1/7])
+logs/
+cache/
+temp/

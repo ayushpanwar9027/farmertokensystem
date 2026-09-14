@@ -1,0 +1,50 @@
+﻿========================================
+  FPS Smoke Test ΓÇö dev
+  Base: http://127.0.0.1:8080
+========================================
+
+
+========================================
+  RESULTS SUMMARY
+========================================
+
+  [32m[PASS][0m 01. 01. GET /health                                             49ms  
+  [32m[PASS][0m 02. 02. GET /web/csrf                                          119ms  
+  [32m[PASS][0m 03. 03. POST /auth/register                                    140ms  
+  [32m[PASS][0m 04. 04. POST /auth/verify-otp                                  101ms  
+  [31m[FAIL][0m 05. 05. POST /auth/complete-registration                        67ms  HTTP 401: Registration token is invalid or expired. Please register again.
+  [31m[FAIL][0m 06. 06. POST /auth/login (smoke farmer)                         73ms  Expected HTTP 200, got 404
+  [31m[FAIL][0m 07. 07. 2FA flow (2FA user)                                    656ms  resend-2fa returned 400
+  [31m[FAIL][0m 08. 08. GET /auth/me + refresh + logout                        109ms  Expected HTTP 200, got 401
+  [31m[FAIL][0m 09. 08b. Re-login farmer for subsequent steps                   91ms  Expected HTTP 200, got 404
+  [31m[FAIL][0m 10. 09. POST /auth/devices                                     101ms  HTTP 401: Authentication required
+  [32m[PASS][0m 11. 10a. GET /centres                                          124ms  
+  [32m[PASS][0m 12. 10b. GET /slots?centre_id=&date=                           191ms  
+  [32m[PASS][0m 13. 10c. GET /crops                                             70ms  
+  [31m[FAIL][0m 14. 10d. POST /bookings (multi-crop)                            66ms  HTTP 403: Missing required permission: bookings.create
+  [31m[FAIL][0m 15. 10e. GET /bookings (list)                                   52ms  Expected HTTP 200, got 403
+  [33m[SKIP][0m 16. 10f. GET /tokens/{id}                                        0ms  
+  [31m[FAIL][0m 17. 11a. GET /queue/my                                          54ms  HTTP 403: Missing required permission: queue.view_own
+  [32m[PASS][0m 18. 11b. Operator login for queue ops                          660ms  
+  [32m[PASS][0m 19. 11c. POST /operator/queue/call-next                        179ms  
+  [33m[SKIP][0m 20. 12a. POST /operator/queue/{id}/start (procurement)           0ms  
+  [33m[SKIP][0m 21. 12b. PUT /operator/procurements/{id} (capture weight)        0ms  
+  [33m[SKIP][0m 22. 12c. POST /operator/procurements/{id}/submit                 0ms  
+  [31m[FAIL][0m 23. 12d. GET /my/procurements                                   50ms  HTTP 403: Missing required permission: procurements.view_own
+  [33m[SKIP][0m 24. 13a. POST /operator/payments/{id}/release                    0ms  
+  [31m[FAIL][0m 25. 13b. GET /my/payments                                       49ms  HTTP 403: Missing required permission: view_own_payments
+  [31m[FAIL][0m 26. 14a. GET /notifications                                     56ms  Expected HTTP 200, got 403
+  [32m[PASS][0m 27. 14b. PATCH /notifications/{id}/read                          0ms  
+  [32m[PASS][0m 28. 15a. POST /admin/notifications/test-push                   367ms  
+  [32m[PASS][0m 29. 15b. Operator -> super_admin route -> 403                   93ms  
+  [32m[PASS][0m 30. 15c. Super admin login for maintenance                       0ms  
+  [32m[PASS][0m 31. 16a. Maintenance enable (super admin)                      106ms  
+  [32m[PASS][0m 32. 16b. Anonymous during maintenance -> 503                    48ms  
+  [32m[PASS][0m 33. 16c. Maintenance disable (super admin)                     105ms  
+  [32m[PASS][0m 34. 16d. Anonymous after disable -> 200                         75ms  
+  [32m[PASS][0m 35. 17a. POST /auth/forgot-password                             77ms  
+  [33m[SKIP][0m 36. 17b. POST /auth/reset-password                               0ms  
+
+  Total: 36 | PASS: 18 | FAIL: 12 | SKIP: 6
+
+[31m  SMOKE TEST FAILED[0m

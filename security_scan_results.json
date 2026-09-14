@@ -1,0 +1,115 @@
+{
+    "scan_date": "2026-09-11T15:54:15+00:00",
+    "base_url": "http://127.0.0.1:8080",
+    "summary": {
+        "total": 13,
+        "passed": 13,
+        "failed": 0,
+        "severity_counts": {
+            "CRITICAL": 3,
+            "HIGH": 6,
+            "MEDIUM": 4,
+            "LOW": 0
+        },
+        "severity_failures": {
+            "CRITICAL": 0,
+            "HIGH": 0,
+            "MEDIUM": 0,
+            "LOW": 0
+        },
+        "auto_fail": false
+    },
+    "results": [
+        {
+            "num": 1,
+            "probe": "SQLi",
+            "severity": "CRITICAL",
+            "pass": true,
+            "detail": "centres single-quote: OK (HTTP 200); centres double-quote: OK (HTTP 200); bookings drop-table: OK (HTTP 403)"
+        },
+        {
+            "num": 2,
+            "probe": "XSS",
+            "severity": "HIGH",
+            "pass": true,
+            "detail": "register-precheck: HTTP 200; auth/me: no raw <script> tag (escaped); utils.js: esc() function found"
+        },
+        {
+            "num": 3,
+            "probe": "CSRF",
+            "severity": "HIGH",
+            "pass": true,
+            "detail": "no-header: 403 (correct); stale-token: 403 (correct)"
+        },
+        {
+            "num": 4,
+            "probe": "Auth Bypass",
+            "severity": "CRITICAL",
+            "pass": true,
+            "detail": "protected-in-config:87 tested:37; all tested routes blocked (401/403/404)"
+        },
+        {
+            "num": 5,
+            "probe": "Role Escalation",
+            "severity": "HIGH",
+            "pass": true,
+            "detail": "operator->maintenance: 403 (correct); operator->settings: 403 (correct); farmer->staff: 403 (correct); farmer->maintenance: 403 (correct)"
+        },
+        {
+            "num": 6,
+            "probe": "IDOR",
+            "severity": "HIGH",
+            "pass": true,
+            "detail": "bookings/999999: HTTP 404 (OK); my/payments/999999: HTTP 404 (OK)"
+        },
+        {
+            "num": 7,
+            "probe": "Upload",
+            "severity": "MEDIUM",
+            "pass": true,
+            "detail": "PHP upload blocked (HTTP 400); no PHP files in upload directory"
+        },
+        {
+            "num": 8,
+            "probe": "Rate Limits",
+            "severity": "MEDIUM",
+            "pass": true,
+            "detail": "register: verification_id obtained; 429 on attempt #1; RateLimit headers present"
+        },
+        {
+            "num": 9,
+            "probe": "Secret Exposure",
+            "severity": "CRITICAL",
+            "pass": true,
+            "detail": "/health: clean; /admin/secrets: protected (HTTP 403)"
+        },
+        {
+            "num": 10,
+            "probe": "Tokens in Logs",
+            "severity": "HIGH",
+            "pass": true,
+            "detail": "no tokens/OTP/keys found in application.log"
+        },
+        {
+            "num": 11,
+            "probe": "Session Cookies",
+            "severity": "MEDIUM",
+            "pass": true,
+            "detail": "HttpOnly present; SameSite present"
+        },
+        {
+            "num": 12,
+            "probe": "Security Headers",
+            "severity": "MEDIUM",
+            "pass": true,
+            "detail": "/health: no CSP (API, acceptable); /: X-Content-Type-Options present; portal/index.html: CSP meta tag found"
+        },
+        {
+            "num": 13,
+            "probe": "Maint Bypass",
+            "severity": "HIGH",
+            "pass": true,
+            "detail": "maintenance enabled; anonymous blocked (503); admin bypasses maintenance (200); maintenance disabled"
+        }
+    ]
+}

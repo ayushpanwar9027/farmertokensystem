@@ -1,0 +1,50 @@
+﻿========================================
+  FPS Smoke Test ΓÇö dev
+  Base: http://127.0.0.1:8080
+========================================
+
+
+========================================
+  RESULTS SUMMARY
+========================================
+
+  [32m[PASS][0m 01. 01. GET /health                                             41ms  
+  [32m[PASS][0m 02. 02. GET /web/csrf                                           86ms  
+  [32m[PASS][0m 03. 03. POST /auth/register                                    138ms  
+  [32m[PASS][0m 04. 04. POST /auth/verify-otp                                   98ms  
+  [32m[PASS][0m 05. 05. POST /auth/complete-registration                       226ms  
+  [32m[PASS][0m 06. 06. POST /auth/login (smoke farmer)                        264ms  
+  [32m[PASS][0m 07. 07. 2FA flow (2FA user)                                    566ms  
+  [32m[PASS][0m 08. 08. GET /auth/me + refresh + logout                        403ms  
+  [32m[PASS][0m 09. 08b. Re-login farmer for subsequent steps                  234ms  
+  [32m[PASS][0m 10. 09. POST /auth/devices                                     108ms  
+  [32m[PASS][0m 11. 10a. GET /centres                                           86ms  
+  [32m[PASS][0m 12. 10b. GET /slots?centre_id=&date= (first weekday in horizon)    228ms  
+  [32m[PASS][0m 13. 10c. GET /crops                                             78ms  
+  [32m[PASS][0m 14. 10d. POST /bookings (multi-crop)                           223ms  
+  [32m[PASS][0m 15. 10e. GET /bookings (list)                                  108ms  
+  [31m[FAIL][0m 16. 10f. GET /tokens/{id}                                      117ms  No token in booking response
+  [32m[PASS][0m 17. 11a. GET /queue/my                                         123ms  
+  [32m[PASS][0m 18. 11b. Operator login for queue ops                          511ms  
+  [32m[PASS][0m 19. 11c. POST /operator/queue/call-next                        362ms  
+  [32m[PASS][0m 20. 12a. POST /operator/queue/{id}/start (procurement)         136ms  
+  [33m[SKIP][0m 21. 12b. PUT /operator/procurements/{id} (capture weight)        0ms  
+  [33m[SKIP][0m 22. 12c. POST /operator/procurements/{id}/submit                 0ms  
+  [32m[PASS][0m 23. 12d. GET /my/procurements                                  108ms  
+  [33m[SKIP][0m 24. 13a. POST /operator/payments/{id}/release                    0ms  
+  [32m[PASS][0m 25. 13b. GET /my/payments                                      105ms  
+  [32m[PASS][0m 26. 14a. GET /notifications                                    112ms  
+  [32m[PASS][0m 27. 14b. PATCH /notifications/{id}/read                          0ms  
+  [32m[PASS][0m 28. 15a. POST /admin/notifications/test-push                   346ms  
+  [32m[PASS][0m 29. 15b. Operator -> super_admin route -> 403                   96ms  
+  [32m[PASS][0m 30. 15c. Super admin login for maintenance                       0ms  
+  [32m[PASS][0m 31. 16a. Maintenance enable (super admin)                      120ms  
+  [32m[PASS][0m 32. 16b. Anonymous during maintenance -> 503                    45ms  
+  [32m[PASS][0m 33. 16c. Maintenance disable (super admin)                     139ms  
+  [32m[PASS][0m 34. 16d. Anonymous after disable -> 200                         86ms  
+  [32m[PASS][0m 35. 17a. POST /auth/forgot-password                            122ms  
+  [32m[PASS][0m 36. 17b. POST /auth/reset-password                             249ms  
+
+  Total: 36 | PASS: 32 | FAIL: 1 | SKIP: 3
+
+[31m  SMOKE TEST FAILED[0m

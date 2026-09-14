@@ -1,0 +1,16 @@
+{
+    "centreA": 83,
+    "centreB": 84,
+    "daId": 27,
+    "coId": 174,
+    "cmId": 175,
+    "saId": 176,
+    "sa2Id": 177,
+    "userIds": {
+        "DA_TEST_DA": 27,
+        "DA_TEST_CO": 174,
+        "DA_TEST_CM": 175,
+        "DA_TEST_SA": 176,
+        "DA_TEST_SA2": 177
+    }
+}

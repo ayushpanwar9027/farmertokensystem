@@ -1,0 +1,32 @@
+{
+    "sa": {
+        "mobile": "8123456781",
+        "password": "Sa07Test@1234",
+        "id": 26
+    },
+    "fa": {
+        "mobile": "8123456782",
+        "password": "Fa07Test@1234",
+        "id": 29
+    },
+    "fb": {
+        "mobile": "8123456783",
+        "password": "Fb07Test@1234",
+        "id": 183
+    },
+    "cm": {
+        "mobile": "8123456784",
+        "password": "Cm07Test@1234",
+        "id": 28
+    },
+    "centre": {
+        "id": 90
+    },
+    "centerId": 90,
+    "run_cleanup": {
+        "fa_file": 13,
+        "fb_file": 14,
+        "cm_file": 15,
+        "center_id": 90
+    }
+}

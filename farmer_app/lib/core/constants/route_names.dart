@@ -1,0 +1,29 @@
+class RouteNames {
+  static const splash = '/';
+  static const languageSelection = '/language';
+  static const login = '/login';
+  static const twofa = '/twofa';
+  static const register = '/register';
+  static const otpVerification = '/otp';
+  static const farmerDetails = '/farmer-details';
+  static const home = '/home';
+  static const profile = '/profile';
+  static const editProfile = '/profile/edit';
+  static const centreList = '/centres';
+  static const centreDetail = '/centres/detail';
+  static const dateSelection = '/bookings/select-date';
+  static const slotSelection = '/bookings/select-slot';
+  static const bookCrops = '/bookings/select-crops';
+  static const bookingReview = '/bookings/review';
+  static const bookingConfirmation = '/bookings/confirm';
+  static const bookingHistory = '/bookings/history';
+  static const bookingDetail = '/bookings/detail';
+  static const cancellation = '/bookings/cancel';
+  static const liveQueue = '/queue/live';
+  static const token = '/token';
+  static const procurementStatus = '/procurement';
+  static const paymentStatus = '/payment';
+  static const notifications = '/notifications';
+  static const notificationDetail = '/notifications/detail';
+  static const settings = '/settings';
+}
